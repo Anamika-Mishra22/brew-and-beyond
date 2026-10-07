@@ -118,9 +118,14 @@ const Menu = () => {
                 <div>
                   <div className="h-52 rounded-sm overflow-hidden bg-[#2b1706] mb-4">
                     <img 
-  src={`http://localhost:5000${item.image}`} 
+  src={
+    item.image && item.image.startsWith('http') 
+      ? item.image 
+      : `https://brew-and-beyond.onrender.com${item.image}`
+  } 
   alt={item.name} 
-  className="w-full h-48 object-cover" 
+  className="w-full h-48 object-cover"
+  onError={handleImageError} 
 />
                   </div>
                   <div>
