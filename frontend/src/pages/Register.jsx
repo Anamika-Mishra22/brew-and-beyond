@@ -1,91 +1,120 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { AuthContext } from '../context/AuthContext';
+import axios from 'axios';
 
-const Register = () => {
-  // 1. Inputs ke data ko store karne ke liye States
+export default function Register() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [errorMsg, setErrorMsg] = useState('');
-
-  // 2. AuthContext se register function aur routing ke liye navigate
-  const { register } = useContext(AuthContext);
+  const [message, setMessage] = useState({ text: '', type: '' });
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  // 3. Form Submit Handler
   const handleRegister = async (e) => {
-    e.preventDefault(); // Page reload hone se rokta hai
-    setErrorMsg('');
+    e.preventDefault();
+    setLoading(true);
+    setMessage({ text: '', type: '' });
 
-    // Context wala register function call karke backend par data bheja
-    const res = await register(name, email, password);
+    try {
+      const response = await axios.post('http://localhost:5000/api/auth/register', {
+        name,
+        email,
+        password
+      });
 
-    if (res.success) {
-      alert('Account Created Successfully! Please Login.');
-      navigate('/login'); // Register hone ke baad Login page par bhej dega
-    } else {
-      setErrorMsg(res.message); // Agar email pehle se exist karta hai to error dikhayega
+      setMessage({ text: 'Registration Successful! Redirecting to login...', type: 'success' });
+      
+      setTimeout(() => {
+        navigate('/login');
+      }, 2000);
+    } catch (error) {
+      setMessage({ 
+        text: error.response?.data?.message || 'User already exists or error occurred!', 
+        type: 'error' 
+      });
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#cca880] text-[#3a200a] font-sans px-6 py-10 selection:bg-[#4a2c11] selection:text-white">
-      <form onSubmit={handleRegister} className="bg-[#e4cfb6] p-8 rounded-sm shadow-sm border border-[#c4a98a] w-full max-w-md space-y-5">
-        <h2 className="text-2xl font-serif font-bold text-[#2e1806] text-center mb-2">Create Account </h2>
-         
-        {/* Error aane par Red Alert Box */}
-        {errorMsg && <p className="bg-rose-950/20 border border-rose-950/40 text-rose-950 p-2.5 rounded-sm text-xs font-medium">{errorMsg}</p>}
+    <div className="min-h-screen bg-[#1a120b] flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+      <div className="sm:mx-auto sm:w-full sm:max-w-md text-center">
+        <h2 className="text-3xl font-serif tracking-wider text-[#d4af37]">BREW & BEYOND</h2>
+        <p className="mt-2 text-sm text-[#c8b6a6]">Join our exclusive coffee circle</p>
+      </div>
 
-        <div>
-          <label className="block text-xs font-medium uppercase tracking-wider text-[#52371e] mb-1">Full Name</label>
-          <input
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            className="w-full p-2.5 bg-white border border-[#c4a98a] rounded-sm text-sm text-[#2e1806] focus:outline-none focus:border-[#4a2c11]"
-            required
-          />
-        </div>
-           
-        <div>
-          <label className="block text-xs font-medium uppercase tracking-wider text-[#52371e] mb-1">Email</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="w-full p-2.5 bg-white border border-[#c4a98a] rounded-sm text-sm text-[#2e1806] focus:outline-none focus:border-[#4a2c11]"
-            required
-          />
-        </div>
-               
-        <div>
-          <label className="block text-xs font-medium uppercase tracking-wider text-[#52371e] mb-1">Password</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="w-full p-2.5 bg-white border border-[#c4a98a] rounded-sm text-sm text-[#2e1806] focus:outline-none focus:border-[#4a2c11]"
-            required
-          />
-        </div>
+      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+        <div className="bg-[#261c14] py-8 px-4 shadow-2xl sm:rounded-xl sm:px-10 border border-[#d4af37]/20">
+          
+          <h3 className="text-xl font-serif text-center text-[#f3e9dc] mb-6">Create Account</h3>
 
-        <button
-          type="submit"
-          className="w-full bg-[#4a2c11] hover:bg-[#2b1706] text-[#f7ebd9] font-medium py-3 rounded-sm text-xs tracking-wider uppercase transition shadow-sm cursor-pointer"
-        >
-          Register
-        </button>
+          {message.text && (
+            <div className={`mb-4 p-3 rounded-lg text-sm text-center ${
+              message.type === 'success' ? 'bg-emerald-950/60 text-emerald-300 border border-emerald-500/30' : 'bg-rose-950/60 text-rose-300 border border-rose-500/30'
+            }`}>
+              {message.text}
+            </div>
+          )}
 
-        <p className="text-xs text-[#52371e] text-center mt-4">
-          Already have an account?{' '}
-          <Link to="/login" className="text-[#2e1806] font-bold hover:underline">
-            Login here
-          </Link>
-        </p>
-      </form>
+          <form className="space-y-6" onSubmit={handleRegister}>
+            <div>
+              <label className="block text-xs uppercase tracking-widest text-[#c8b6a6] mb-2 font-medium">Full Name</label>
+              <input
+                type="text"
+                required
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="w-full px-4 py-3 bg-[#1a120b] border border-[#3e2723] rounded-lg text-[#f3e9dc] focus:outline-none focus:border-[#d4af37] transition duration-200 text-sm"
+                placeholder="Anamika Mishra"
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs uppercase tracking-widest text-[#c8b6a6] mb-2 font-medium">Email Address</label>
+              <input
+                type="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full px-4 py-3 bg-[#1a120b] border border-[#3e2723] rounded-lg text-[#f3e9dc] focus:outline-none focus:border-[#d4af37] transition duration-200 text-sm"
+                placeholder="name@example.com"
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs uppercase tracking-widest text-[#c8b6a6] mb-2 font-medium">Password</label>
+              <input
+                type="password"
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full px-4 py-3 bg-[#1a120b] border border-[#3e2723] rounded-lg text-[#f3e9dc] focus:outline-none focus:border-[#d4af37] transition duration-200 text-sm"
+                placeholder="••••••••"
+              />
+            </div>
+
+            <div>
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-[#1a120b] bg-[#d4af37] hover:bg-[#e6c55c] focus:outline-none transition duration-200 font-serif tracking-wider"
+              >
+                {loading ? 'Creating Account...' : 'REGISTER'}
+              </button>
+            </div>
+          </form>
+
+          <div className="mt-6 text-center">
+            <p className="text-sm text-[#c8b6a6]">
+              Already have an account?{' '}
+              <Link to="/login" className="font-medium text-[#d4af37] hover:underline">
+                Login here
+              </Link>
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
   );
-};
-
-export default Register;
+}

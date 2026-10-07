@@ -10,9 +10,9 @@ const VisitUs = () => {
         <div className="lg:col-span-5 space-y-6">
           <div>
             <h2 className="text-3xl md:text-4xl font-serif text-[#2e1806] font-normal">Visit Brew & Beyond</h2>
-            <p className="text-xs md:text-sm text-[#52371e] mt-3 leading-relaxed">
-              Looking for specialty coffee near Golf City or your favorite hangout spot? Brew & Beyond is Lucknow's cozy specialty coffee cafe — a relaxed space for great brews, good food, and genuine community.
-            </p>
+           <p className="text-xs md:text-sm text-[#52371e] mt-3 leading-relaxed">
+  Looking for Lucknow's finest specialty coffee or your favorite neighborhood spot? Brew & Beyond is your warm neighborhood escape — crafted for rich brews, artisanal bites, and timeless conversations.
+</p>
           </div>
 
           <div className="space-y-4 text-xs md:text-sm text-[#52371e]">
