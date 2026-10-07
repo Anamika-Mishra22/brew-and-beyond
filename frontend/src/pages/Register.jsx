@@ -1,37 +1,38 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import axios from 'axios';
 
-export default function Register() {
+const Register = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [message, setMessage] = useState({ text: '', type: '' });
+  const [errorMsg, setErrorMsg] = useState('');
   const [loading, setLoading] = useState(false);
+
   const navigate = useNavigate();
 
   const handleRegister = async (e) => {
     e.preventDefault();
+    setErrorMsg('');
     setLoading(true);
-    setMessage({ text: '', type: '' });
 
     try {
-      const response = await axios.post('https://brew-and-beyond.onrender.com/api/auth/register', {
-        name,
-        email,
-        password
+      const response = await fetch('https://brew-and-beyond.onrender.com/api/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: name.trim(), email: email.trim(), password }),
       });
 
-      setMessage({ text: 'Registration Successful! Redirecting to login...', type: 'success' });
-      
-      setTimeout(() => {
+      const data = await response.json();
+
+      if (response.ok) {
+        alert('Account Created Successfully! Please Login.');
         navigate('/login');
-      }, 2000);
-    } catch (error) {
-      setMessage({ 
-        text: error.response?.data?.message || 'User already exists or error occurred!', 
-        type: 'error' 
-      });
+      } else {
+        setErrorMsg(data.message || 'Registration failed. Please check inputs.');
+      }
+    } catch (err) {
+      console.error('Registration Error:', err);
+      setErrorMsg('Server se connect nahi ho pa raha hai (Backend Off ho sakta hai)');
     } finally {
       setLoading(false);
     }
@@ -49,48 +50,46 @@ export default function Register() {
           
           <h3 className="text-xl font-serif text-center text-[#f3e9dc] mb-6">Create Account</h3>
 
-          {message.text && (
-            <div className={`mb-4 p-3 rounded-lg text-sm text-center ${
-              message.type === 'success' ? 'bg-emerald-950/60 text-emerald-300 border border-emerald-500/30' : 'bg-rose-950/60 text-rose-300 border border-rose-500/30'
-            }`}>
-              {message.text}
+          {errorMsg && (
+            <div className="mb-4 p-3 rounded-lg text-sm text-center bg-rose-950/60 text-rose-300 border border-rose-500/35">
+              {errorMsg}
             </div>
           )}
 
-          <form className="space-y-6" onSubmit={handleRegister}>
+          <form onSubmit={handleRegister} className="space-y-6">
             <div>
               <label className="block text-xs uppercase tracking-widest text-[#c8b6a6] mb-2 font-medium">Full Name</label>
               <input
                 type="text"
-                required
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 className="w-full px-4 py-3 bg-[#1a120b] border border-[#3e2723] rounded-lg text-[#f3e9dc] focus:outline-none focus:border-[#d4af37] transition duration-200 text-sm"
                 placeholder="Anamika Mishra"
+                required
               />
             </div>
-
+              
             <div>
               <label className="block text-xs uppercase tracking-widest text-[#c8b6a6] mb-2 font-medium">Email Address</label>
               <input
                 type="email"
-                required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="w-full px-4 py-3 bg-[#1a120b] border border-[#3e2723] rounded-lg text-[#f3e9dc] focus:outline-none focus:border-[#d4af37] transition duration-200 text-sm"
                 placeholder="name@example.com"
+                required
               />
             </div>
-
+              
             <div>
               <label className="block text-xs uppercase tracking-widest text-[#c8b6a6] mb-2 font-medium">Password</label>
               <input
                 type="password"
-                required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="w-full px-4 py-3 bg-[#1a120b] border border-[#3e2723] rounded-lg text-[#f3e9dc] focus:outline-none focus:border-[#d4af37] transition duration-200 text-sm"
                 placeholder="••••••••"
+                required
               />
             </div>
 
@@ -98,7 +97,7 @@ export default function Register() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-[#1a120b] bg-[#d4af37] hover:bg-[#e6c55c] focus:outline-none transition duration-200 font-serif tracking-wider"
+                className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-[#1a120b] bg-[#d4af37] hover:bg-[#e6c55c] focus:outline-none transition duration-200 font-serif tracking-wider cursor-pointer"
               >
                 {loading ? 'Creating Account...' : 'REGISTER'}
               </button>
@@ -117,4 +116,6 @@ export default function Register() {
       </div>
     </div>
   );
-}
+};
+
+export default Register;
