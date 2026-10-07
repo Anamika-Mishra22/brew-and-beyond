@@ -9,7 +9,7 @@ const LiveOrders = () => {
 
   const fetchOrders = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/admin/orders", {
+      const res = await fetch("https://brew-and-beyond.onrender.com/api/admin/orders", {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`
         }
@@ -47,7 +47,7 @@ const LiveOrders = () => {
 
   const handleStatusChange = async (orderId, status) => {
     try {
-      const res = await fetch(`http://localhost:5000/api/admin/orders/${orderId}`, {
+      const res = await fetch(`https://brew-and-beyond.onrender.com/api/admin/orders/${orderId}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

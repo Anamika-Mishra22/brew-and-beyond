@@ -16,7 +16,7 @@ export default function Register() {
     setMessage({ text: '', type: '' });
 
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/register', {
+      const response = await axios.post('https://brew-and-beyond.onrender.com/api/auth/register', {
         name,
         email,
         password

@@ -40,7 +40,7 @@ const BookTable = () => {
     setErrorMessage('');
 
     try {
-      const res = await fetch("http://localhost:5000/api/reservations", {
+      const res = await fetch("https://brew-and-beyond.onrender.com/api/reservations", {
         method: "POST",
         headers: { 
           "Content-Type": "application/json",

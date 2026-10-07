@@ -15,7 +15,7 @@ const MyReservations = () => {
     const fetchUserReservations = async () => {
       try {
         setLoading(true);
-        const response = await axios.get('http://localhost:5000/api/reservations/my-reservations', {
+        const response = await axios.get('https://brew-and-beyond.onrender.com/api/reservations/my-reservations', {
           headers: {
             'Authorization': `Bearer ${token}`
           }

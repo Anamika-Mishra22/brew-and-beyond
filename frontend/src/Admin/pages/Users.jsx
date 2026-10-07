@@ -9,7 +9,7 @@ const Users = () => {
   const fetchUsers = async () => {
     setLoading(true);
     try {
-      const res = await fetch('http://localhost:5000/api/admin/users', {
+      const res = await fetch(' https://brew-and-beyond.onrender.com/api/admin/users', {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`
         }
@@ -35,7 +35,7 @@ const Users = () => {
   const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to remove this user?')) {
       try {
-        const res = await fetch(`http://localhost:5000/api/admin/users/${id}`, {
+        const res = await fetch(`https://brew-and-beyond.onrender.com/api/admin/users/${id}`, {
           method: 'DELETE',
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`

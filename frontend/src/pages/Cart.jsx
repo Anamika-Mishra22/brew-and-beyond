@@ -47,7 +47,7 @@ const Cart = () => {
               >
                 <div className="flex items-center gap-4">
                  <img 
-  src={item.image && item.image.startsWith('http') ? item.image : `http://localhost:5000/${item.image?.replace(/^\/+/, '')}`} 
+  src={item.image && item.image.startsWith('http') ? item.image : `https://brew-and-beyond.onrender.com/${item.image?.replace(/^\/+/, '')}`} 
   alt={item.name} 
   className="w-20 h-20 object-cover rounded-sm border border-[#c4a98a]" 
 />

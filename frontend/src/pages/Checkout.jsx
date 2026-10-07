@@ -39,7 +39,7 @@ const Checkout = () => {
     try {
       // 🟢 OPTION 1: CASH ON DELIVERY (COD) OR DIRECT QR UPI
       if (paymentMethod === 'COD' || paymentMethod === 'UPI_QR') {
-        const orderResponse = await fetch('http://localhost:5000/api/orders', {
+        const orderResponse = await fetch('https://brew-and-beyond.onrender.com/api/orders', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -76,7 +76,7 @@ const Checkout = () => {
       }
 
       // 🟢 OPTION 2: ORIGINAL RAZORPAY GATEWAY FLOW
-      const razorpayRes = await fetch('http://localhost:5000/api/orders/razorpay', {
+      const razorpayRes = await fetch('https://brew-and-beyond.onrender.com/api/orders/razorpay', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -109,7 +109,7 @@ const Checkout = () => {
         },
         handler: async function (paymentResponse) {
           try {
-            const orderResponse = await fetch('http://localhost:5000/api/orders', {
+            const orderResponse = await fetch('https://brew-and-beyond.onrender.com/api/orders', {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',

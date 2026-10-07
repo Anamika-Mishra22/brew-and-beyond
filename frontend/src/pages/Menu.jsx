@@ -30,7 +30,7 @@ const Menu = () => {
     const fetchFoods = async () => {
       try {
         setLoading(true);
-        const response = await axios.get('http://localhost:5000/api/foods');
+        const response = await axios.get('https://brew-and-beyond.onrender.com/api/foods');
 
         const updatedData = response.data.map((item) => {
           if (item.name.toLowerCase().includes('pasta') || item.name.toLowerCase().includes('alfredo')) {

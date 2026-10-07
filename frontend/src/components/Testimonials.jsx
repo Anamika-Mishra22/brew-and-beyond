@@ -21,7 +21,7 @@ const Testimonials = () => {
   // Fetch reviews from Backend (Latest reviews first)
   const fetchReviews = async () => {
     try {
-      const response = await fetch("http://localhost:5000/api/reviews");
+      const response = await fetch("https://brew-and-beyond.onrender.com/api/reviews");
       const data = await response.json();
       if (response.ok) {
         // Reverse array taaki sabse latest review pehle aaye
@@ -64,7 +64,7 @@ const Testimonials = () => {
     setMessage({ type: '', text: '' });
 
     try {
-      const res = await fetch("http://localhost:5000/api/reviews", {
+      const res = await fetch("https://brew-and-beyond.onrender.com/api/reviews", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData)

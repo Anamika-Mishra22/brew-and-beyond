@@ -34,7 +34,7 @@ export const AuthProvider = ({ children }) => {
   // 🟢 2. NEW REGISTER FUNCTION ADD KAREIN
   const register = async (name, email, password) => {
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/register', {
+      const response = await axios.post('https://brew-and-beyond.onrender.com/api/auth/register', {
         name,
         email,
         password,

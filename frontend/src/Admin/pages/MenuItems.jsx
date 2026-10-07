@@ -29,7 +29,7 @@ const MenuItems = ({ fetchFoods }) => {
     }
 
     try {
-      const res = await fetch('http://localhost:5000/api/foods', {
+      const res = await fetch(' https://brew-and-beyond.onrender.com/api/foods', {
         method: 'POST',
         headers: {
           // ⚠️ FormData use karte waqt 'Content-Type': 'application/json' nahi lagate, 

@@ -9,7 +9,7 @@ const AdminReservations = () => {
   const fetchReservations = async () => {
     setLoading(true);
     try {
-      const res = await fetch('http://localhost:5000/api/reservations');
+      const res = await fetch('https://brew-and-beyond.onrender.com/api/reservations');
       const data = await res.json();
       setReservations(data);
     } catch (err) {
@@ -26,7 +26,7 @@ const AdminReservations = () => {
   // PUT: Update Status (Confirmed / Cancelled)
   const handleStatusChange = async (id, status) => {
     try {
-      const res = await fetch(`http://localhost:5000/api/reservations/${id}/status`, {
+      const res = await fetch(`https://brew-and-beyond.onrender.com/api/reservations/${id}/status`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status })
@@ -47,7 +47,7 @@ const AdminReservations = () => {
     if (!window.confirm('Are you sure you want to delete this reservation?')) return;
 
     try {
-      const res = await fetch(`http://localhost:5000/api/reservations/${id}`, {
+      const res = await fetch(` https://brew-and-beyond.onrender.com/api/reservations/${id}`, {
         method: 'DELETE'
       });
 
